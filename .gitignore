@@ -1,0 +1,8 @@
+﻿# Compilados de la app de escritorio (el .exe se publica como Release en GitHub)
+escritorio/bin/
+escritorio/obj/
+*.exe
+# Herramientas locales
+.claude/
+.vercel/
+node_modules/

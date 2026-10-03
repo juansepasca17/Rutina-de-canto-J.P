@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Vocalia de escritorio: un solo .exe (WinForms + WebView2) que lleva dentro los archivos de la app.
+       Compilar: dotnet build -c Release   → deja ..\Vocalia.exe listo para usar. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>Vocalia</AssemblyName>
+    <RootNamespace>Vocalia</RootNamespace>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>..\icons\vocalia.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>1.0.0</Version>
+    <Product>Vocalia</Product>
+    <Description>Rutina vocal por categorías, con timer y minijuegos</Description>
+    <Copyright>Juan Sebastián Pascagaza Rivera</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.*" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <!-- Los archivos de la app web viajan dentro del .exe -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\index.html;..\manifest.webmanifest;..\sw.js" LogicalName="web/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\css\**\*.*" LogicalName="web/css/%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\js\**\*.*" LogicalName="web/js/%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\icons\**\*.*" LogicalName="web/icons/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Y también las bibliotecas de WebView2, para no tener que llevar DLLs sueltas -->
+  <Target Name="EmbedWebView2" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <Wv2Lib Condition="Exists('$(PkgMicrosoft_Web_WebView2)\lib\net462')">$(PkgMicrosoft_Web_WebView2)\lib\net462</Wv2Lib>
+      <Wv2Lib Condition="'$(Wv2Lib)' == ''">$(PkgMicrosoft_Web_WebView2)\lib\net45</Wv2Lib>
+    </PropertyGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="$(Wv2Lib)\Microsoft.Web.WebView2.Core.dll" LogicalName="lib/Microsoft.Web.WebView2.Core.dll" />
+      <EmbeddedResource Include="$(Wv2Lib)\Microsoft.Web.WebView2.WinForms.dll" LogicalName="lib/Microsoft.Web.WebView2.WinForms.dll" />
+      <EmbeddedResource Include="$(PkgMicrosoft_Web_WebView2)\runtimes\win-x64\native\WebView2Loader.dll" LogicalName="lib/WebView2Loader.dll" />
+    </ItemGroup>
+    <Error Condition="!Exists('$(Wv2Lib)\Microsoft.Web.WebView2.Core.dll')" Text="No encontré las DLL de WebView2 en $(Wv2Lib)" />
+  </Target>
+
+  <!-- En Release, deja el .exe final en la carpeta del proyecto -->
+  <Target Name="CopyExe" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="..\Vocalia.exe" />
+    <Message Importance="high" Text="Listo: $([System.IO.Path]::GetFullPath('..\Vocalia.exe'))" />
+  </Target>
+</Project>

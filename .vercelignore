@@ -1,0 +1,7 @@
+﻿escritorio/
+tests/
+servidor.py
+*.exe
+*.md
+package.json
+.claude/

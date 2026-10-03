@@ -1,0 +1,11 @@
+{
+  "name": "vocalia",
+  "version": "1.0.0",
+  "description": "Vocalia: rutina vocal por categorías con timer y minijuegos, más el desafío de 30 días.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "start": "python -m http.server 5173 --bind 127.0.0.1"
+  }
+}
