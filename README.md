@@ -1,8 +1,8 @@
-# 🎙️ Vocalia — rutina de canto J.P
+# 🎙️ Vocalia 
 
 Rutina vocal por categorías, con timer, minijuegos que escuchan tu voz y un desafío de 30 días de respiración.
 
-- **📱 Úsala en el celular o en el navegador: [[[https://rutina-de-canto-jp-five.vercel.app](https://rutina-de-canto-jp-five.vercel.app/)](https://vocalia-phi.vercel.app/)](https://vocalia-phi.vercel.app/)
+- **📱 Úsala en el celular o en el navegador: https://vocalia-phi.vercel.app/
 - **🪟 Descarga para Windows:** [Vocalia.exe (última versión)](https://github.com/juansepasca17/Rutina-de-canto-J.P/releases/latest/download/Vocalia.exe)
 
 ## Qué trae
